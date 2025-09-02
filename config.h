@@ -1,3 +1,5 @@
+#include <X11/XF86keysym.h>
+
 /* See LICENSE file for copyright and license details. */
 
 /* Helper macros for spawning commands */
@@ -654,7 +656,7 @@ static const BarRule barrules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 #if FLEXTILE_DELUXE_LAYOUT
 static const int nstack      = 0;    /* number of clients in primary stack area */
@@ -908,7 +910,13 @@ static const char *dmenucmd[] = {
 	NULL
 };
 static const char *termcmd[]  = { "kitty", NULL };
+
+/* custom commands */
 static const char *quitcmd[]  = { "power", NULL };
+static const char *lockcmd[]  = { "xsecurelock", NULL };
+static const char *volmutecmd[] = { "pamixer", "--toggle-mute", NULL };
+static const char *volupcmd[] = { "pamixer", "--increase", "5", NULL };
+static const char *voldowncmd[] = { "pamixer", "--decrease", "5", NULL };
 
 #if BAR_STATUSCMD_PATCH
 #if BAR_DWMBLOCKS_PATCH
@@ -1044,6 +1052,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_q,          spawn,                  {.v = quitcmd } },
+	{ MODKEY,                       XK_q,          spawn,                  {.v = lockcmd } },
+	{ 0,                XF86XK_AudioMute,          spawn,                  {.v = volmutecmd } },
+	{ 0,         XF86XK_AudioRaiseVolume,          spawn,                  {.v = volupcmd } },
+	{ 0,         XF86XK_AudioLowerVolume,          spawn,                  {.v = voldowncmd } },
 	#if RIODRAW_PATCH
 	{ MODKEY|ControlMask,           XK_p,          riospawnsync,           {.v = dmenucmd } },
 	{ MODKEY|ControlMask,           XK_Return,     riospawn,               {.v = termcmd } },
@@ -1095,11 +1107,11 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_k,          inplacerotate,          {.i = -1} },
 	#endif // INPLACEROTATE_PATCH
 	#if PUSH_PATCH || PUSH_NO_MASTER_PATCH
-	{ MODKEY|ControlMask,           XK_j,          pushdown,               {0} },
-	{ MODKEY|ControlMask,           XK_k,          pushup,                 {0} },
+	{ MODKEY|ShiftMask,             XK_j,          pushdown,               {0} },
+	{ MODKEY|ShiftMask,             XK_k,          pushup,                 {0} },
 	#endif // PUSH_PATCH / PUSH_NO_MASTER_PATCH
-	{ MODKEY,                       XK_i,          incnmaster,             {.i = +1 } },
-	{ MODKEY,                       XK_d,          incnmaster,             {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_i,          incnmaster,             {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_d,          incnmaster,             {.i = -1 } },
 	#if FLEXTILE_DELUXE_LAYOUT
 	{ MODKEY|ControlMask,           XK_i,          incnstack,              {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_u,          incnstack,              {.i = -1 } },

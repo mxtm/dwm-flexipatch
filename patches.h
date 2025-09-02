@@ -979,7 +979,7 @@
 /* This patch provides a way to move clients up and down inside the client list.
  * https://dwm.suckless.org/patches/push/
  */
-#define PUSH_PATCH 0
+#define PUSH_PATCH 1
 
 /* This patch provides a way to move clients up and down inside the client list,
  * but does not push up or down into the master area (except that it does not take
@@ -987,7 +987,7 @@
  * This takes precedence over the push patch above.
  * https://dwm.suckless.org/patches/push/
  */
-#define PUSH_NO_MASTER_PATCH 1
+#define PUSH_NO_MASTER_PATCH 0
 
 /* Variant of the named scratchpads patch allowing scratch keys to be added or removed
  * on demand, allowing multiple scratchpad windows to be toggled into and out of view
